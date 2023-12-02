@@ -6,14 +6,19 @@ import { useGetUserQuery } from "../../../redux/features/user/userApi";
 const Users = () => {
   // fetch users data
 
-  // const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("http://localhost:5000/users")
-  //     .then((res) => res.json())
-  //     .then((data) => setUserData(data));
-  // }, []);
+  useEffect(() => {
+    fetch("http://localhost:5000/users")
+      .then((res) => res.json())
+      .then((data) => setUserData(data));
+  }, []);
   // console.log(userData);
+
+  // Filter unique genders
+  const uniqueGenders = Array.from(
+    new Set(userData?.map((user) => user.gender))
+  );
 
   //filter
   const [selectGender, setSelectGender] = useState("");
@@ -104,17 +109,36 @@ const Users = () => {
         {/* gender */}
 
         <div>
-          <input
-            onChange={() => setSelectGender("")}
-            className="h-3 w-3"
-            id="gender"
-            type="radio"
-            name="gender"
-            checked={selectGender === "gender"}
-          />
-          <label className="text-[14px] ml-4" htmlFor="gender">
-            gender
-          </label>
+          <h2
+            className="my-4 font-semibold text-lg"
+            style={{ color: "var(--blue)", fontSize: "var(--font)" }}
+          >
+            Select a gender
+          </h2>
+          <button
+            onClick={() => {
+              setSelectGender("");
+            }}
+            className=" w-full rounded-none text-white py-2 mb-4  transition duration-1000"
+            style={{ backgroundColor: "var(--blue)" }}
+          >
+            Reset gender
+          </button>
+          {uniqueGenders?.map((gender, i) => (
+            <div key={i}>
+              <input
+                onChange={() => setSelectGender(gender)}
+                className="h-3 w-3"
+                id={gender}
+                type="radio"
+                name="gender"
+                checked={selectGender === gender}
+              />
+              <label className="text-[14px] ml-4" htmlFor={gender}>
+                {gender}
+              </label>
+            </div>
+          ))}
         </div>
 
         <form className=" my-2">
@@ -128,6 +152,7 @@ const Users = () => {
         </form>
       </div>
       <Row>
+        {/* display user data */}
         {displayUsers.map((user, index) => (
           <Col key={index} sm={12} md={4} lg={3}>
             <div className="userCard">
@@ -154,6 +179,8 @@ const Users = () => {
             </div>
           </Col>
         ))}
+
+        {/* pagination */}
         <Pagination>
           <Pagination.First onClick={() => handlePageChange(1)} />
           <Pagination.Prev
