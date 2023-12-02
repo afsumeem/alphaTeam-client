@@ -1,0 +1,90 @@
+.section-title {
+}
+
+.userCard {
+  /* margin: 20px; */
+  max-width: 300px;
+  text-align: center;
+  padding-left: 0;
+  border: 2px solid #edeef2;
+  transition: border 0.3s ease-in-out;
+  display: block;
+  margin: auto;
+  margin-top: 30px;
+}
+
+.coverBox {
+  height: 250px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #edeef2;
+  transition: background-color 0.3s ease-in;
+}
+
+.userCover {
+  background-color: #edeef2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid orange;
+  border-radius: 100px;
+  height: 180px;
+  width: 180px;
+  transition: background-color 0.3s ease-in;
+}
+
+.userCover img {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+}
+
+.userDetails {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.userDetails h2 {
+  color: orange;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.userDetails h4 {
+  color: #8d8c8c;
+  font-size: 18px;
+}
+.boxLine {
+  height: 1px;
+  border-radius: 2;
+  width: 150px;
+  background-color: rgb(235, 235, 235);
+  display: block;
+  margin: auto;
+  transition: background-color 0.3s ease-in;
+}
+
+.userProfile {
+  margin-top: 10px;
+  margin-bottom: 5px;
+
+  text-align: center;
+}
+
+.userCard:hover {
+  border: 2px solid orange;
+}
+.userCard:hover .teamCover {
+  background-color: white;
+}
+
+.userCard:hover .coverBox {
+  background-color: orangered;
+}
+
+.userCard:hover .boxLine {
+  background-color: orange;
+}
