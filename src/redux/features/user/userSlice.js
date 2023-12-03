@@ -17,9 +17,11 @@ const userSlice = createSlice({
         state.users.push(action.payload);
       }
     },
-  },
-  removeFromTeam: (state, action) => {
-    state.users = state.users.filter((user) => user._id !== action.payload._id);
+    removeFromTeam: (state, action) => {
+      state.users = state.users.filter(
+        (user) => user._id !== action.payload._id
+      );
+    },
   },
 });
 

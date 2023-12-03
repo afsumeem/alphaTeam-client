@@ -1,9 +1,10 @@
 import { Col } from "react-bootstrap";
 import PropTypes from "prop-types";
+import "./UserCard.css";
 
 const UserCard = ({ user, handleAddToTeam }) => {
   return (
-    <Col sm={12} md={4} lg={3}>
+    <Col sm={12} md={6} lg={4} xl={3}>
       <div className="userCard">
         <div className="coverBox">
           <div className="userCover">

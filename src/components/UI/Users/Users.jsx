@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import "./Users.css";
 import { Col, Offcanvas, Pagination, Row } from "react-bootstrap";
 import { useGetUserQuery } from "../../../redux/features/user/userApi";
-// import { useSelector } from "react-redux";
-import Header from "../Header/Header";
 import GenderFilter from "../GenderFilter/GenderFilter";
 import DomainFilter from "../DomainFilter/DomainFilter";
 import SearchForm from "../SearchForm/SearchForm";
@@ -14,6 +12,7 @@ import {
   removeFromTeam,
 } from "../../../redux/features/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import NavigationBar from "../../Shared/NavigationBar";
 
 //
 
@@ -111,130 +110,134 @@ const Users = () => {
   //
 
   return (
-    <div className="mt-5 ">
-      <div className="mb-5 mx-5">
-        <Header handleShow={handleShow} />
-        <hr />
-
-        {/*  */}
-
-        <Offcanvas show={show} onHide={handleClose}>
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Teams</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            {users.map((team, i) => (
-              <div key={i} className="border p-4 m-2">
-                <div className="flex items-center gap-5">
-                  <img
-                    src={team.avatar}
-                    style={{ height: "50px", width: "80px" }}
-                    alt=""
-                  />
-                  <div>
-                    <h5
-                      className="font-semibold my-3 text-primary text-uppercase"
-                      style={{ color: "var(--blue)" }}
-                    >
-                      {team.first_name} {team.last_name}
-                    </h5>
-
-                    <h6>{team.email}</h6>
-                    <p className="m-0">Gender: {team.gender}</p>
-                    <p>Domain: {team.domain}</p>
-
-                    <button
-                      title="Delete User"
-                      className="text-danger text-base px-4 py-2 border"
-                      onClick={() => dispatch(removeFromTeam(team))}
-                    >
-                      X
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Offcanvas.Body>
-        </Offcanvas>
-
-        <Row>
-          <Col md={3} sm={4} xs={12}>
-            <SearchForm setSearchText={setSearchText} />
-
-            {/* availability */}
-            <AvailableFilter
-              isAvailable={isAvailable}
-              handleToggleAvailability={handleToggleAvailability}
-            />
-
-            {/* gender */}
-            <GenderFilter
-              selectGender={selectGender}
-              setSelectGender={setSelectGender}
-            />
-
-            {/* domain */}
-            <DomainFilter
-              selectDomain={selectDomain}
-              setSelectDomain={setSelectDomain}
-            />
-            {/*  */}
-          </Col>
-          <Col md={9} sm={8} xs={12}>
-            <Row>
-              {/* display user data */}
-              {displayUsers.map((user, index) => (
-                <UserCard
-                  user={user}
-                  key={index}
-                  handleAddToTeam={handleAddToTeam}
-                />
-              ))}
-
-              {/* pagination */}
-              <Pagination className="mt-4">
-                <Pagination.First onClick={() => handlePageChange(1)} />
-                <Pagination.Prev
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  // disabled={currentPage === 1}
-                />
-                {currentPage > 3 && (
-                  <>
-                    <Pagination.Item onClick={() => handlePageChange(1)}>
-                      1
-                    </Pagination.Item>
-                    <Pagination.Ellipsis disabled />
-                  </>
-                )}
-                {renderMiddlePages()}
-                {currentPage < Math.ceil(data.length / pageSize) - 2 && (
-                  <>
-                    <Pagination.Ellipsis disabled />
-                    <Pagination.Item
-                      onClick={() =>
-                        handlePageChange(Math.ceil(data.length / pageSize))
-                      }
-                    >
-                      {Math.ceil(data.length / pageSize)}
-                    </Pagination.Item>
-                  </>
-                )}
-                <Pagination.Next
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === Math.ceil(data.length / pageSize)}
-                />
-                <Pagination.Last
-                  onClick={() =>
-                    handlePageChange(Math.ceil(data.length / pageSize))
-                  }
-                />
-              </Pagination>
-            </Row>
-          </Col>
-        </Row>
-      </div>
+    <div className="mb-5 mx-5">
+      <NavigationBar handleShow={handleShow} />
+      <hr />
 
       {/*  */}
+
+      <Offcanvas show={show} onHide={handleClose}>
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Teams</Offcanvas.Title>
+        </Offcanvas.Header>
+        <hr />
+        <Offcanvas.Body>
+          {users.length === 0 ? (
+            <h3 className="text-danger"> No Team Found</h3>
+          ) : (
+            <>
+              <h5 className="text-primary">Team-1</h5>
+              {users.map((team, i) => (
+                <div key={i} className="border p-4 m-4">
+                  <div className="d-flex align-items-center justify-content-center gap-5">
+                    <img
+                      src={team.avatar}
+                      style={{ height: "100px", width: "100px" }}
+                      alt=""
+                    />
+                    <div>
+                      <h5
+                        className="font-semibold my-3 text-primary text-uppercase"
+                        style={{ color: "var(--blue)" }}
+                      >
+                        {team.first_name} {team.last_name}
+                      </h5>
+
+                      <h6>{team.email}</h6>
+                      <p className="m-0">Gender: {team.gender}</p>
+                      <p>Domain: {team.domain}</p>
+
+                      <button
+                        title="Delete User"
+                        className="text-danger text-base px-4 py-2 border"
+                        onClick={() => dispatch(removeFromTeam(team))}
+                      >
+                        X
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <Row>
+        <Col md={3} sm={4} xs={12}>
+          <SearchForm setSearchText={setSearchText} />
+
+          {/* availability */}
+          <AvailableFilter
+            isAvailable={isAvailable}
+            handleToggleAvailability={handleToggleAvailability}
+          />
+
+          {/* gender */}
+          <GenderFilter
+            selectGender={selectGender}
+            setSelectGender={setSelectGender}
+          />
+
+          {/* domain */}
+          <DomainFilter
+            selectDomain={selectDomain}
+            setSelectDomain={setSelectDomain}
+          />
+          {/*  */}
+        </Col>
+        <Col md={9} sm={8} xs={12}>
+          <Row>
+            {/* display user data */}
+            {displayUsers.map((user, index) => (
+              <UserCard
+                user={user}
+                key={index}
+                handleAddToTeam={handleAddToTeam}
+              />
+            ))}
+
+            {/* pagination */}
+            <Pagination className="mt-4">
+              <Pagination.First onClick={() => handlePageChange(1)} />
+              <Pagination.Prev
+                onClick={() => handlePageChange(currentPage - 1)}
+                // disabled={currentPage === 1}
+              />
+              {currentPage > 3 && (
+                <>
+                  <Pagination.Item onClick={() => handlePageChange(1)}>
+                    1
+                  </Pagination.Item>
+                  <Pagination.Ellipsis disabled />
+                </>
+              )}
+              {renderMiddlePages()}
+              {currentPage < Math.ceil(data.length / pageSize) - 2 && (
+                <>
+                  <Pagination.Ellipsis disabled />
+                  <Pagination.Item
+                    onClick={() =>
+                      handlePageChange(Math.ceil(data.length / pageSize))
+                    }
+                  >
+                    {Math.ceil(data.length / pageSize)}
+                  </Pagination.Item>
+                </>
+              )}
+              <Pagination.Next
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === Math.ceil(data.length / pageSize)}
+              />
+              <Pagination.Last
+                onClick={() =>
+                  handlePageChange(Math.ceil(data.length / pageSize))
+                }
+              />
+            </Pagination>
+          </Row>
+        </Col>
+      </Row>
     </div>
   );
 };
