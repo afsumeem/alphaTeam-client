@@ -18,10 +18,16 @@ const NavigationBar = ({ handleShow }) => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            <NavLink to="/" className="mx-2 text-dark">
+            <NavLink
+              to="/"
+              className="mx-2 text-dark text-decoration-none fs-5"
+            >
               Home
             </NavLink>
-            <NavLink to="/add-new-user" className="mx-2 text-dark">
+            <NavLink
+              to="/add-new-user"
+              className="mx-2 text-dark text-decoration-none fs-5"
+            >
               Add New User
             </NavLink>
           </Nav>

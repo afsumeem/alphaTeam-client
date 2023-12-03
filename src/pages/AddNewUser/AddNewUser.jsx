@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import "./AddNewUser.css";
 import axios from "axios";
-import { NavLink } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const AddNewUser = () => {
   const {
@@ -19,6 +19,7 @@ const AddNewUser = () => {
         if (res.data.insertedId) {
           alert("User Added successfully");
           reset();
+          console.log(res.data.insertedId);
         }
       });
   };

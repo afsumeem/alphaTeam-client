@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import store from "./redux/store.js";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AddNewUser from "./pages/AddNewUser/AddNewUser.jsx";
+import Home from "./pages/Home/Home.jsx";
+import SingleUser from "./pages/SingleUser/SingleUser.jsx";
 
 //
 
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+  },
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/user/:id",
+    element: <SingleUser />,
   },
   {
     path: "/add-new-user",
