@@ -192,7 +192,7 @@ const Users = () => {
               ))}
 
               {/* pagination */}
-              <Pagination>
+              <Pagination className="mt-4">
                 <Pagination.First onClick={() => handlePageChange(1)} />
                 <Pagination.Prev
                   onClick={() => handlePageChange(currentPage - 1)}

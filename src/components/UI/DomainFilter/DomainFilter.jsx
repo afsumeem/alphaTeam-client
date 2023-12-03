@@ -5,7 +5,7 @@ const DomainFilter = ({ selectDomain, setSelectDomain }) => {
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("https://alpha-team-backend.vercel.app/users")
       .then((res) => res.json())
       .then((data) => setUserData(data));
   }, []);
