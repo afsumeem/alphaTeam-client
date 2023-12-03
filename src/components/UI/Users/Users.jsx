@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Users.css";
-import { Pagination, Row } from "react-bootstrap";
+import { Offcanvas, Pagination, Row } from "react-bootstrap";
 import { useGetUserQuery } from "../../../redux/features/user/userApi";
 // import { useSelector } from "react-redux";
 import Header from "../Header/Header";
@@ -9,6 +9,13 @@ import DomainFilter from "../DomainFilter/DomainFilter";
 import SearchForm from "../SearchForm/SearchForm";
 import UserCard from "../UserCard/UserCard";
 import AvailableFilter from "../AvailableFilter/AvailableFilter";
+import {
+  addToTeam,
+  removeFromTeam,
+} from "../../../redux/features/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+//
 
 const Users = () => {
   //availability
@@ -41,6 +48,15 @@ const Users = () => {
       setData(fetchedData);
     }
   }, [fetchedData, isLoading]);
+
+  //add to team
+  const dispatch = useDispatch();
+
+  const handleAddToTeam = (user) => {
+    dispatch(addToTeam(user));
+  };
+
+  const { users } = useSelector((state) => state.user);
 
   //pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,11 +107,60 @@ const Users = () => {
     return middlePages;
   };
 
+  //
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <div className="mt-5 ">
       <div className="mb-5 mx-5">
-        <Header />
+        <Header handleShow={handleShow} />
         <hr />
+
+        {/*  */}
+
+        <Offcanvas show={show} onHide={handleClose}>
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Teams</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            {users.map((team, i) => (
+              <div key={i} className="border p-4 m-2">
+                <div className="flex items-center gap-5">
+                  <img
+                    src={team.avatar}
+                    style={{ height: "50px", width: "80px" }}
+                    alt=""
+                  />
+                  <div>
+                    <h2
+                      className="font-semibold my-2 uppercase"
+                      style={{ color: "var(--blue)" }}
+                    >
+                      {team.first_name} {team.last_name}
+                    </h2>
+
+                    <h4>{team.email}</h4>
+                    <p>Gender: {team.gender}</p>
+                    <p>Domain: {team.domain}</p>
+                    <h1 className="text-xl my-2">$ {team.price}</h1>
+
+                    <button
+                      title="Delete User"
+                      className="text-danger text-base px-4 py-2 border"
+                      onClick={() => dispatch(removeFromTeam(team))}
+                    >
+                      X
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Offcanvas.Body>
+        </Offcanvas>
 
         {/* gender */}
 
@@ -132,7 +197,7 @@ const Users = () => {
       <Row>
         {/* display user data */}
         {displayUsers.map((user, index) => (
-          <UserCard user={user} key={index} />
+          <UserCard user={user} key={index} handleAddToTeam={handleAddToTeam} />
         ))}
 
         {/* pagination */}

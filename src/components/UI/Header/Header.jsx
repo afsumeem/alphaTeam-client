@@ -1,4 +1,7 @@
-const Header = () => {
+import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
+
+const Header = ({ handleShow }) => {
   return (
     <div>
       <h4
@@ -13,8 +16,16 @@ const Header = () => {
       >
         Alpha Team members
       </h2>
+
+      <Button variant="primary" onClick={handleShow}>
+        Teams
+      </Button>
     </div>
   );
+};
+
+Header.propTypes = {
+  handleShow: PropTypes.func.isRequired,
 };
 
 export default Header;

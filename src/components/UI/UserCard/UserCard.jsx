@@ -1,7 +1,7 @@
 import { Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, handleAddToTeam }) => {
   return (
     <Col sm={12} md={4} lg={3}>
       <div className="userCard">
@@ -26,12 +26,14 @@ const UserCard = ({ user }) => {
           <p>{user.available}</p>
         </div>
       </div>
+      <button onClick={() => handleAddToTeam(user)}>book now</button>
     </Col>
   );
 };
 
 UserCard.propTypes = {
   user: PropTypes.object.isRequired,
+  handleAddToTeam: PropTypes.func.isRequired,
 };
 
 export default UserCard;
