@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 
 const NavigationBar = ({ handleShow }) => {
   return (
@@ -17,9 +18,12 @@ const NavigationBar = ({ handleShow }) => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="#features" className="mx-2 text-dark">
+            <NavLink to="/" className="mx-2 text-dark">
+              Home
+            </NavLink>
+            <NavLink to="/add-new-user" className="mx-2 text-dark">
               Add New User
-            </Nav.Link>
+            </NavLink>
           </Nav>
         </Navbar.Collapse>
         <Button

@@ -5,11 +5,26 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "./redux/store.js";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AddNewUser from "./pages/AddNewUser/AddNewUser.jsx";
+
+//
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/add-new-user",
+    element: <AddNewUser />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );
