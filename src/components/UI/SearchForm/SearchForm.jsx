@@ -7,9 +7,9 @@ const SearchForm = ({ setSearchText }) => {
         <input
           type="text"
           onChange={(e) => setSearchText(e.target.value)}
-          className=" py-2 border rounded-md border-black px-2"
-          placeholder="Search Services"
-          style={{ width: "250px" }}
+          className="py-2 border border-black px-2"
+          placeholder="Search Users Name"
+          style={{ width: "200px" }}
         />
       </form>
     </div>

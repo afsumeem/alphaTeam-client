@@ -3,15 +3,13 @@ import PropTypes from "prop-types";
 const AvailableFilter = ({ isAvailable, handleToggleAvailability }) => {
   return (
     <div>
-      <h1 className="text-2xl uppercase">Availability</h1>
-      availability check using toggle
-      <label className="switch">
+      <label>
         <input
           type="checkbox"
           checked={isAvailable}
           onChange={() => handleToggleAvailability(!isAvailable)}
         />
-        <span className="slider">Available</span>
+        <span> Available</span>
       </label>
     </div>
   );

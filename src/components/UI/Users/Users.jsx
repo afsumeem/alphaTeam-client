@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Users.css";
-import { Offcanvas, Pagination, Row } from "react-bootstrap";
+import { Col, Offcanvas, Pagination, Row } from "react-bootstrap";
 import { useGetUserQuery } from "../../../redux/features/user/userApi";
 // import { useSelector } from "react-redux";
 import Header from "../Header/Header";
@@ -18,24 +18,24 @@ import { useDispatch, useSelector } from "react-redux";
 //
 
 const Users = () => {
-  //availability
-  const [isAvailable, setIsAvailable] = useState(false);
+  // states
 
-  // Toggle for availability
+  const [isAvailable, setIsAvailable] = useState(false);
+  const [selectGender, setSelectGender] = useState("");
+  const [selectDomain, setSelectDomain] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
+  const { users } = useSelector((state) => state.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [show, setShow] = useState(false);
 
   // Toggle availability handler
   const handleToggleAvailability = () => {
     setIsAvailable(!isAvailable);
   };
 
-  //filter
-  const [selectGender, setSelectGender] = useState("");
-  const [selectDomain, setSelectDomain] = useState("");
-  const [searchText, setSearchText] = useState("");
-
   //
-
-  const [data, setData] = useState([]);
   const { data: fetchedData, isLoading } = useGetUserQuery({
     search: searchText,
     gender: selectGender,
@@ -50,16 +50,12 @@ const Users = () => {
   }, [fetchedData, isLoading]);
 
   //add to team
-  const dispatch = useDispatch();
-
   const handleAddToTeam = (user) => {
     dispatch(addToTeam(user));
   };
 
-  const { users } = useSelector((state) => state.user);
-
   //pagination
-  const [currentPage, setCurrentPage] = useState(1);
+
   const pageSize = 20;
 
   const handlePageChange = (page) => {
@@ -108,11 +104,10 @@ const Users = () => {
   };
 
   //
-
-  const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  //
 
   return (
     <div className="mt-5 ">
@@ -162,81 +157,84 @@ const Users = () => {
           </Offcanvas.Body>
         </Offcanvas>
 
-        {/* gender */}
+        <Row>
+          <Col md={3} sm={4} xs={12}>
+            <SearchForm setSearchText={setSearchText} />
 
-        <div>
-          <GenderFilter
-            selectGender={selectGender}
-            setSelectGender={setSelectGender}
-          />
-        </div>
+            {/* availability */}
+            <AvailableFilter
+              isAvailable={isAvailable}
+              handleToggleAvailability={handleToggleAvailability}
+            />
 
-        {/* availability */}
-        <div>
-          <AvailableFilter
-            isAvailable={isAvailable}
-            handleToggleAvailability={handleToggleAvailability}
-          />
-        </div>
+            {/* gender */}
+            <GenderFilter
+              selectGender={selectGender}
+              setSelectGender={setSelectGender}
+            />
 
-        {/* domain */}
+            {/* domain */}
+            <DomainFilter
+              selectDomain={selectDomain}
+              setSelectDomain={setSelectDomain}
+            />
+            {/*  */}
+          </Col>
+          <Col md={9} sm={8} xs={12}>
+            <Row>
+              {/* display user data */}
+              {displayUsers.map((user, index) => (
+                <UserCard
+                  user={user}
+                  key={index}
+                  handleAddToTeam={handleAddToTeam}
+                />
+              ))}
 
-        <div>
-          <DomainFilter
-            selectDomain={selectDomain}
-            setSelectDomain={setSelectDomain}
-          />
-        </div>
-
-        {/*  */}
-        <SearchForm setSearchText={setSearchText} />
+              {/* pagination */}
+              <Pagination>
+                <Pagination.First onClick={() => handlePageChange(1)} />
+                <Pagination.Prev
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  // disabled={currentPage === 1}
+                />
+                {currentPage > 3 && (
+                  <>
+                    <Pagination.Item onClick={() => handlePageChange(1)}>
+                      1
+                    </Pagination.Item>
+                    <Pagination.Ellipsis disabled />
+                  </>
+                )}
+                {renderMiddlePages()}
+                {currentPage < Math.ceil(data.length / pageSize) - 2 && (
+                  <>
+                    <Pagination.Ellipsis disabled />
+                    <Pagination.Item
+                      onClick={() =>
+                        handlePageChange(Math.ceil(data.length / pageSize))
+                      }
+                    >
+                      {Math.ceil(data.length / pageSize)}
+                    </Pagination.Item>
+                  </>
+                )}
+                <Pagination.Next
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === Math.ceil(data.length / pageSize)}
+                />
+                <Pagination.Last
+                  onClick={() =>
+                    handlePageChange(Math.ceil(data.length / pageSize))
+                  }
+                />
+              </Pagination>
+            </Row>
+          </Col>
+        </Row>
       </div>
 
       {/*  */}
-
-      <Row>
-        {/* display user data */}
-        {displayUsers.map((user, index) => (
-          <UserCard user={user} key={index} handleAddToTeam={handleAddToTeam} />
-        ))}
-
-        {/* pagination */}
-        <Pagination>
-          <Pagination.First onClick={() => handlePageChange(1)} />
-          <Pagination.Prev
-            onClick={() => handlePageChange(currentPage - 1)}
-            // disabled={currentPage === 1}
-          />
-          {currentPage > 3 && (
-            <>
-              <Pagination.Item onClick={() => handlePageChange(1)}>
-                1
-              </Pagination.Item>
-              <Pagination.Ellipsis disabled />
-            </>
-          )}
-          {renderMiddlePages()}
-          {currentPage < Math.ceil(data.length / pageSize) - 2 && (
-            <>
-              <Pagination.Ellipsis disabled />
-              <Pagination.Item
-                onClick={() =>
-                  handlePageChange(Math.ceil(data.length / pageSize))
-                }
-              >
-                {Math.ceil(data.length / pageSize)}
-              </Pagination.Item>
-            </>
-          )}
-          <Pagination.Next
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === Math.ceil(data.length / pageSize)}
-          />
-          <Pagination.Last
-            onClick={() => handlePageChange(Math.ceil(data.length / pageSize))}
-          />
-        </Pagination>
-      </Row>
     </div>
   );
 };

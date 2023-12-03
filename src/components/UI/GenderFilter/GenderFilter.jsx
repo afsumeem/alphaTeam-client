@@ -9,7 +9,6 @@ const GenderFilter = ({ setSelectGender, selectGender }) => {
       .then((res) => res.json())
       .then((data) => setUserData(data));
   }, []);
-  // console.log(userData);
 
   // Filter unique genders
   const uniqueGenders = Array.from(
@@ -17,21 +16,18 @@ const GenderFilter = ({ setSelectGender, selectGender }) => {
   );
   return (
     <div>
-      <h2
-        className="my-4 font-semibold text-lg"
-        style={{ color: "var(--blue)", fontSize: "var(--font)" }}
-      >
-        Select a gender
-      </h2>
+      <h6 className="my-2">Select a gender</h6>
       <button
         onClick={() => {
           setSelectGender("");
         }}
-        className=" w-full rounded-none text-white py-2 mb-4  transition duration-1000"
-        style={{ backgroundColor: "var(--blue)" }}
+        className="bg-warning border-0 p-2 fw-bold mb-2"
       >
-        Reset gender
+        Reset Gender
       </button>
+
+      {/* gender */}
+
       {uniqueGenders?.map((gender, i) => (
         <div key={i}>
           <input
@@ -41,10 +37,9 @@ const GenderFilter = ({ setSelectGender, selectGender }) => {
             type="radio"
             name={gender}
             checked={selectGender === gender}
-          />
-          <label className="text-[14px] ml-4" htmlFor={gender}>
-            {gender}
-          </label>
+          />{" "}
+          {""}
+          <label htmlFor={gender}>{gender}</label>
         </div>
       ))}
     </div>

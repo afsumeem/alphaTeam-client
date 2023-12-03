@@ -19,13 +19,14 @@ const DomainFilter = ({ selectDomain, setSelectDomain }) => {
   //
   return (
     <div>
-      <h2 className="my-4 font-semibold text-lg">Select a domain</h2>
+      <h6 className="my-2">Select a domain</h6>
       <button
+        className="bg-warning border-0 p-2 fw-bold mb-2"
         onClick={() => {
           setSelectDomain("");
         }}
       >
-        Reset domain
+        Reset Domain
       </button>
       {uniqueDomains?.map((domain, i) => (
         <div key={i}>
