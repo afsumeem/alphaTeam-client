@@ -52,6 +52,7 @@ const Users = () => {
   //add to team
   const handleAddToTeam = (user) => {
     dispatch(addToTeam(user));
+    alert("User Added");
   };
 
   //pagination
@@ -131,17 +132,16 @@ const Users = () => {
                     alt=""
                   />
                   <div>
-                    <h2
-                      className="font-semibold my-2 uppercase"
+                    <h5
+                      className="font-semibold my-3 text-primary text-uppercase"
                       style={{ color: "var(--blue)" }}
                     >
                       {team.first_name} {team.last_name}
-                    </h2>
+                    </h5>
 
-                    <h4>{team.email}</h4>
-                    <p>Gender: {team.gender}</p>
+                    <h6>{team.email}</h6>
+                    <p className="m-0">Gender: {team.gender}</p>
                     <p>Domain: {team.domain}</p>
-                    <h1 className="text-xl my-2">$ {team.price}</h1>
 
                     <button
                       title="Delete User"
