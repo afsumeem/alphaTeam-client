@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
 import "./Users.css";
-import { Col, Pagination, Row } from "react-bootstrap";
+import { Pagination, Row } from "react-bootstrap";
 import { useGetUserQuery } from "../../../redux/features/user/userApi";
+// import { useSelector } from "react-redux";
+import Header from "../Header/Header";
+import GenderFilter from "../GenderFilter/GenderFilter";
+import DomainFilter from "../DomainFilter/DomainFilter";
+import SearchForm from "../SearchForm/SearchForm";
+import UserCard from "../UserCard/UserCard";
 
 const Users = () => {
-  // fetch users data
+  //availability
+  const [isAvailable, setIsAvailable] = useState(false);
 
-  const [userData, setUserData] = useState([]);
+  // Toggle for availability
 
-  useEffect(() => {
-    fetch("http://localhost:5000/users")
-      .then((res) => res.json())
-      .then((data) => setUserData(data));
-  }, []);
-  // console.log(userData);
-
-  // Filter unique genders
-  const uniqueGenders = Array.from(
-    new Set(userData?.map((user) => user.gender))
-  );
+  // Toggle availability handler
+  const handleToggleAvailability = () => {
+    setIsAvailable(!isAvailable);
+  };
 
   //filter
   const [selectGender, setSelectGender] = useState("");
-  // const [selectDomain, setSelectDomain] = useState("");
+  const [selectDomain, setSelectDomain] = useState("");
   const [searchText, setSearchText] = useState("");
 
   //
@@ -31,7 +31,8 @@ const Users = () => {
   const { data: fetchedData, isLoading } = useGetUserQuery({
     search: searchText,
     gender: selectGender,
-    // domain: selectDomain,
+    domain: selectDomain,
+    available: isAvailable ? true : undefined,
   });
 
   useEffect(() => {
@@ -92,92 +93,51 @@ const Users = () => {
   return (
     <div className="mt-5 ">
       <div className="mb-5 mx-5">
-        <h4
-          className="fw-bold text-uppercase"
-          style={{ color: "blue", fontSize: "25px" }}
-        >
-          Alpha Team
-        </h4>
-        <h2
-          className="fw-semibold text-uppercase mb-5"
-          style={{ fontSize: "17px" }}
-        >
-          Alpha Team members
-        </h2>
+        <Header />
         <hr />
 
         {/* gender */}
 
         <div>
-          <h2
-            className="my-4 font-semibold text-lg"
-            style={{ color: "var(--blue)", fontSize: "var(--font)" }}
-          >
-            Select a gender
-          </h2>
-          <button
-            onClick={() => {
-              setSelectGender("");
-            }}
-            className=" w-full rounded-none text-white py-2 mb-4  transition duration-1000"
-            style={{ backgroundColor: "var(--blue)" }}
-          >
-            Reset gender
-          </button>
-          {uniqueGenders?.map((gender, i) => (
-            <div key={i}>
-              <input
-                onChange={() => setSelectGender(gender)}
-                className="h-3 w-3"
-                id={gender}
-                type="radio"
-                name="gender"
-                checked={selectGender === gender}
-              />
-              <label className="text-[14px] ml-4" htmlFor={gender}>
-                {gender}
-              </label>
-            </div>
-          ))}
+          <GenderFilter
+            selectGender={selectGender}
+            setSelectGender={setSelectGender}
+          />
         </div>
 
-        <form className=" my-2">
-          <input
-            type="text"
-            onChange={(e) => setSearchText(e.target.value)}
-            className=" py-2 border rounded-md border-black px-2"
-            placeholder="Search Services"
-            style={{ width: "250px" }}
+        {/* availability */}
+        <div>
+          <h1 className="text-2xl uppercase">Availability</h1>
+          availability check using toggle
+          <label className="switch">
+            <input
+              type="checkbox"
+              checked={isAvailable}
+              onChange={() => handleToggleAvailability(!isAvailable)}
+            />
+            <span className="slider">Available</span>
+          </label>
+        </div>
+
+        {/* domain */}
+
+        <div>
+          <DomainFilter
+            selectDomain={selectDomain}
+            setSelectDomain={setSelectDomain}
           />
-        </form>
+        </div>
+
+        {/*  */}
+        <SearchForm setSearchText={setSearchText} />
       </div>
+
+      {/*  */}
+
       <Row>
         {/* display user data */}
         {displayUsers.map((user, index) => (
-          <Col key={index} sm={12} md={4} lg={3}>
-            <div className="userCard">
-              <div className="coverBox">
-                <div className="userCover">
-                  <img src={user.avatar} alt="" />
-                </div>
-              </div>
-              <div className="userDetails">
-                <h2>
-                  {user.first_name} {user.last_name}
-                </h2>
-                <h4>{user.email}</h4>
-              </div>
-              <div className="boxLine"></div>
-              <div className="boxLine"></div>
-
-              <div className="userProfile">
-                <p>Gender: {user.gender}</p>
-                <p>Domain: {user.domain}</p>
-                <br />
-                <p>{user.available}</p>
-              </div>
-            </div>
-          </Col>
+          <UserCard user={user} key={index} />
         ))}
 
         {/* pagination */}

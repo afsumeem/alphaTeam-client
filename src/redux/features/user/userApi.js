@@ -9,9 +9,9 @@ const userApi = api.injectEndpoints({
       }),
     }),
     getUser: builder.query({
-      query: ({ search, gender }) => ({
+      query: ({ search, gender, domain, available }) => ({
         url: "/filteredUsers",
-        params: { search, gender },
+        params: { search, gender, domain, available },
       }),
     }),
   }),
