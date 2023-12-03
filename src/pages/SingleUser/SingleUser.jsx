@@ -5,6 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 const SingleUser = () => {
   const { id } = useParams();
   const [userDetails, setUserDetails] = useState([]);
+
   //
   useEffect(() => {
     const url = `https://alpha-team-backend.vercel.app/users/${id}`;
@@ -13,6 +14,7 @@ const SingleUser = () => {
       .then((data) => setUserDetails(data));
   }, [id]);
 
+  //
   return (
     <Col sm={12} md={6} lg={6} xl={6} className="d-block m-auto">
       <div className="userCard">

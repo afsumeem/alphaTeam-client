@@ -4,12 +4,7 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 
 const AddNewUser = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   // handle submit button
   const onSubmit = (data) => {
