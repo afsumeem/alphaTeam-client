@@ -8,6 +8,7 @@ import GenderFilter from "../GenderFilter/GenderFilter";
 import DomainFilter from "../DomainFilter/DomainFilter";
 import SearchForm from "../SearchForm/SearchForm";
 import UserCard from "../UserCard/UserCard";
+import AvailableFilter from "../AvailableFilter/AvailableFilter";
 
 const Users = () => {
   //availability
@@ -107,16 +108,10 @@ const Users = () => {
 
         {/* availability */}
         <div>
-          <h1 className="text-2xl uppercase">Availability</h1>
-          availability check using toggle
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={isAvailable}
-              onChange={() => handleToggleAvailability(!isAvailable)}
-            />
-            <span className="slider">Available</span>
-          </label>
+          <AvailableFilter
+            isAvailable={isAvailable}
+            handleToggleAvailability={handleToggleAvailability}
+          />
         </div>
 
         {/* domain */}
