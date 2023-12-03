@@ -20,13 +20,16 @@ const UserCard = ({ user, handleAddToTeam }) => {
         <div className="boxLine"></div>
 
         <div className="userProfile">
-          <p>Gender: {user.gender}</p>
+          <p className="m-0">Gender: {user.gender}</p>
           <p>Domain: {user.domain}</p>
-          <br />
-          <p>{user.available}</p>
         </div>
+        <button
+          className="border-0 p-2 mb-2 fw-bold"
+          onClick={() => handleAddToTeam(user)}
+        >
+          Add To Team
+        </button>
       </div>
-      <button onClick={() => handleAddToTeam(user)}>book now</button>
     </Col>
   );
 };
