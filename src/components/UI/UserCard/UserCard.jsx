@@ -1,6 +1,7 @@
 import { Col } from "react-bootstrap";
 import PropTypes from "prop-types";
 import "./UserCard.css";
+import { NavLink } from "react-router-dom";
 
 const UserCard = ({ user, handleAddToTeam }) => {
   return (
@@ -30,6 +31,9 @@ const UserCard = ({ user, handleAddToTeam }) => {
         >
           Add To Team
         </button>
+        <NavLink to={`/user/${user._id}`}>
+          <button className="border-0 p-2 mb-2 fw-bold">See Details</button>
+        </NavLink>
       </div>
     </Col>
   );

@@ -5,7 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 const SingleUser = () => {
   const { id } = useParams();
   const [userDetails, setUserDetails] = useState([]);
-
+  //
   useEffect(() => {
     const url = `https://alpha-team-backend.vercel.app/users/${id}`;
     fetch(url)
